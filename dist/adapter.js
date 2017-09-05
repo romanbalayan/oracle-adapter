@@ -429,6 +429,44 @@ var adapter = {
     return this.executeQuery(connectionName, queries, cb);
   },
 
+  // Direct access to query
+  query: function query(connectionName, collectionName, query, data, cb, connection) {
+    if ( _lodash2['default'].isFunction(data) ) {
+      cb = data;
+      data = null;
+    }
+
+    data = data || [];
+
+    // var queryObj = {
+    //     sql: query,
+    //     params: data
+    // };
+    //
+    // var context = this.adapter.connections[connectionName]._adapter;
+    // return executeQuery.bind(context)(connectionName, queryObj, function(err, results) {
+    //     if (err) return cb(err);
+    //     cb(null, results);
+    // });
+
+    // I don't know why it has to be like this!!
+    var cxn = this.adapter.connections[connectionName]._adapter.connections.get(connectionName);
+
+    if (cxn.pool._enableStats) {
+        console.log(cxn.pool._logStats());
+    }
+
+    cxn.pool.getConnection(function (err, conn) {
+      conn.execute(query, data, function(err, result) {
+        conn.release(function(releaseError) {
+          if (releaseError) console.log('Problem releasing connection', releaseError);
+          cb(err, result);
+        });
+      });
+    });
+
+  },
+
   update: function update(connectionName, collectionName, options, values, cb, connection) {
     //    var processor = new Processor();
     var connectionObject = this.connections.get(connectionName);
