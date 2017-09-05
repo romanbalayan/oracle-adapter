@@ -91,6 +91,24 @@ var adapter = {
     if (connection.queueTimeout >= 0) {
       _oracledb2['default'].queueTimeout = connection.queueTimeout;
     }
+    if (connection.fetchAsString) {
+      var validTypes = ['CLOB', 'DATE', 'STRING'];
+      var fetchAsStrings = connection.fetchAsString;
+
+      if(_lodash2['default'].isArray(fetchAsStrings)) {
+        _oracledb2['default'].fetchAsString = fetchAsStrings.map(function(string) {
+          var type = string.toUpperCase().trim();
+          if(validTypes.indexOf(type) !== -1) {
+              return _oracledb2['default'][type];
+          }
+        });
+      } else {
+          var type = fetchAsStrings.toUpperCase().trim();
+          if(validTypes.indexOf(type) !== -1) {
+              _oracledb2['default'].fetchAsString = [ _oracledb2['default'][type] ];
+          }
+      }
+    }
 
     var poolconfig = {
       _enableStats: enableStats,
