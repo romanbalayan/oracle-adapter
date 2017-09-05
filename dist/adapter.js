@@ -92,7 +92,7 @@ var adapter = {
       _oracledb2['default'].queueTimeout = connection.queueTimeout;
     }
     if (connection.fetchAsString) {
-      var validTypes = ['CLOB', 'DATE', 'STRING'];
+      var validTypes = ['CLOB', 'DATE', 'NUMBER'];
       var fetchAsStrings = connection.fetchAsString;
 
       if(_lodash2['default'].isArray(fetchAsStrings)) {

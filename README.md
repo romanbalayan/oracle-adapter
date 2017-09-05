@@ -26,6 +26,10 @@ of currently open connections. Defaults to 1.
 Number - The number, in seconds, after which idle connections are terminated.  If set to 0, idle connections
 are never terminated. Defaults to 60.  
 
+**fetchAsString**:
+String - Optional. OracleDB Data Type that will be configured to be fetched as a string. Valid values are 'CLOB', 'NUMBER', or 'DATE'
+or
+[String] - For multiple data types that are to be fetched as string. Any combination of ['CLOB', 'NUMBER', 'DATE']
 
 ##### Example connection (from test config)
     oracleConn: {  
