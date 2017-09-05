@@ -291,7 +291,8 @@ utils.getReturningData = function (definition) {
   return _.reduce(definition, function (memo, attributes, field) {
     memo.params.push({
       type: _oracledb2['default'][utils.sqlTypeCast(attributes.type)],
-      dir: _oracledb2['default'].BIND_OUT
+      dir: _oracledb2['default'].BIND_OUT,
+      maxSize: attributes.size
     });
     memo.fields.push('"' + field + '"');
     memo.outfields.push(':' + field);
