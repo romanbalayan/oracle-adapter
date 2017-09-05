@@ -30,6 +30,8 @@ var createcount = 0;
 
 _oracledb2['default'].outFormat = _oracledb2['default'].OBJECT;
 
+_oracledb2['default'].fetchAsString = [ _oracledb2['default'].CLOB ];
+
 var adapter = {
 
   connections: new Map(),
